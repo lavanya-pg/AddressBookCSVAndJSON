@@ -15,7 +15,8 @@ public class AddressBook
 	static public Map<String, List<Contact>> statePersonsMap;
 
     
-	public  void showAddressBooks() {
+	public  void showAddressBooks() 
+	{
 		System.out.println("Do you want to view address book (Y/N-y/n): ");
 		char ch=sc.next().charAt(0);
 		if(ch=='N' || ch=='n')
@@ -40,7 +41,7 @@ public class AddressBook
 			String cityOrStateName = sc.nextLine(); 
 			addressBook.keySet().stream().forEach( key -> {
 				AddressBookMain mainObj = addressBook.get(key);
-				mainObj.addressFileObj.readAddressBookFromAFile().stream().filter(name ->
+				mainObj.addressJsonObj.readAddressBookFromAFile().stream().filter(name ->
 				name.getStateName().equalsIgnoreCase(cityOrStateName) || name.getCityName().equalsIgnoreCase(cityOrStateName))
 						.forEach(person -> System.out.println((person.getFirstName()+" "+person.getLastName()) 
 						+ "is present in City or State: " + cityOrStateName));
@@ -57,19 +58,18 @@ public void dictionaryOfState_PersonsAndCity_Persons()
 	statePersonsMap = new HashMap<>();
 	addressBook.keySet().stream().forEach( key -> {
 		AddressBookMain mainObj = addressBook.get(key);
-		List<Contact> cityPerson =  mainObj.addressFileObj.readAddressBookFromAFile().stream()
+		List<Contact> cityPerson =  mainObj.addressJsonObj.readAddressBookFromAFile().stream()
 				.filter(contact -> contact.getCityName().equals(cityName)).collect(Collectors.toList());
 		cityPersonsMap.put(cityName, cityPerson);
 	});
 	
 	addressBook.keySet().stream().forEach( key -> {
 		AddressBookMain mainObj = addressBook.get(key);
-		List<Contact> statePerson = mainObj.addressFileObj.readAddressBookFromAFile().stream()
+		List<Contact> statePerson = mainObj.addressJsonObj.readAddressBookFromAFile().stream()
 				.filter(contact -> contact.getStateName().equals(stateName)).collect(Collectors.toList());
 		statePersonsMap.put(stateName, statePerson);
 	});
 }
-
 public static void showCountOfPersonsByCityAndState()
 {
 	addressBook.keySet().stream().forEach(key -> {
